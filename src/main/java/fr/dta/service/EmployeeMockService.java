@@ -52,4 +52,10 @@ public class EmployeeMockService implements EmployeeService {
         return repo.findAllEmployees().stream().max( Comparator.comparing( Employee::getEmbauche ) ).get();
     }
 
+    @Override
+    public void updateEmployee( List<Employee> list ) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

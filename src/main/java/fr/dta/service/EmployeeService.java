@@ -12,5 +12,6 @@ public interface EmployeeService {
         Employee findBySsn(String ssn);
         void updateEmployee(Employee employee);
         Employee findLastHired();
+        void updateEmployee(List<Employee> list);
      
 }

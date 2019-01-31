@@ -46,11 +46,17 @@ public class EmployeeMockRepository implements EmployeeRepository {
         return null;
     }
 
-    public void updateEmployee( Employee employee ) throws Exception {
+    public void updateEmployee( Employee employee ) {
         if(list.contains( employee )) {
             list.set( list.indexOf( employee ), employee );
-        }else throw new Exception( "employée inexistant" );
+        }
         
     }
+
+//    @Override
+//    public void updateEmployee( List<Employee> list ) {
+//        // TODO Auto-generated method stub
+//        
+//    }
 
 }

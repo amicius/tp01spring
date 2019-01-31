@@ -11,5 +11,7 @@ public interface EmployeeRepository {
 
     Employee findBySsn( String ssn );
 
-    void updateEmployee( Employee employee ) throws Exception;
+    void updateEmployee( Employee employee );
+    
+//    void updateEmployee(List<Employee> list);
 }

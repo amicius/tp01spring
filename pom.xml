@@ -21,6 +21,9 @@
 
 	<properties>
 		<postgres.jdbc.version>9.3-1102-jdbc41</postgres.jdbc.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>

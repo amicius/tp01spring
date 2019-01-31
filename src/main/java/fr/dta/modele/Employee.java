@@ -2,7 +2,6 @@ package fr.dta.modele;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Employee {
     private long       identifiant;
@@ -23,6 +22,14 @@ public class Employee {
         this.salaire = salaire;
         this.embauche = localDate;
     }
+
+    public Employee( String prenom, String nom, String secu, BigDecimal salaire, LocalDate localDate ) {
+        super();
+        this.prenom = prenom;
+        this.nom = nom;
+        this.secu = secu;
+        this.salaire = salaire;
+        this.embauche = localDate;    }
 
     public long getIdentifiant() {
         return identifiant;
