@@ -14,5 +14,6 @@ public interface EmployeeRepository {
 
     void updateEmployee( Employee employee ) throws CustomRollbackException ;
     
-//    void updateEmployee(List<Employee> list);
+    void deleteAllEmployees();
+    
 }

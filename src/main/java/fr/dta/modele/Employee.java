@@ -3,17 +3,39 @@ package fr.dta.modele;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table( name = "Employee" )
+@SequenceGenerator( name = "empl_seq" )
 public class Employee {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "empl_seq" )
     private long       identifiant;
-    private String     prenom, nom, secu;
+    @Column
+    private String     prenom;
+    @Column
+    private String     nom;
+    @Column
+    private String     secu;
+    @Column
     private BigDecimal salaire;
-    private LocalDate       embauche;
+    @Column
+    private LocalDate  embauche;
 
     public Employee() {
         super();
     }
 
-    public Employee( long identifiant, String prenom, String nom, String secu, BigDecimal salaire, LocalDate localDate ) {
+    public Employee( long identifiant, String prenom, String nom, String secu, BigDecimal salaire,
+            LocalDate localDate ) {
         super();
         this.identifiant = identifiant;
         this.prenom = prenom;
@@ -29,7 +51,8 @@ public class Employee {
         this.nom = nom;
         this.secu = secu;
         this.salaire = salaire;
-        this.embauche = localDate;    }
+        this.embauche = localDate;
+    }
 
     public long getIdentifiant() {
         return identifiant;
@@ -87,8 +110,6 @@ public class Employee {
         return result;
     }
 
-    
-
     @Override
     public boolean equals( Object obj ) {
         if ( this == obj )
@@ -108,8 +129,5 @@ public class Employee {
         return "Employee [identifiant=" + identifiant + ", prenom=" + prenom + ", nom=" + nom + ", secu=" + secu
                 + ", salaire=" + salaire + ", embauche=" + embauche + "]";
     }
-    
-   
-
 
 }

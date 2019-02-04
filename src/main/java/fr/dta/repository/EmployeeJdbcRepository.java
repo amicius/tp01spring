@@ -4,6 +4,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import fr.dta.exception.CustomRollbackException;
@@ -12,7 +16,7 @@ import fr.dta.modele.Employee;
 
 @Repository
 public class EmployeeJdbcRepository extends AbstractJdbcRepository implements EmployeeRepository {
-
+    
     @Override
     public void saveEmployee( Employee employee ) {
         this.getJdbcTemplate().update(
@@ -45,6 +49,12 @@ public class EmployeeJdbcRepository extends AbstractJdbcRepository implements Em
         
         
 
+    }
+
+    @Override
+    public void deleteAllEmployees() {
+        // TODO Auto-generated method stub
+        
     }
 
 ////    public void updateEmployee( List<Employee> list ) {
