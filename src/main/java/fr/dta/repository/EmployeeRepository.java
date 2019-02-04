@@ -1,8 +1,10 @@
 package fr.dta.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import fr.dta.exception.CustomRollbackException;
+import fr.dta.exception.EmployeeNotFoundException;
 import fr.dta.modele.Employee;
 
 public interface EmployeeRepository {
@@ -10,9 +12,9 @@ public interface EmployeeRepository {
 
     List<Employee> findAllEmployees();
 
-    Employee findBySsn( String ssn );
+    Optional<Employee> findBySsn( String ssn );
 
-    void updateEmployee( Employee employee ) throws CustomRollbackException ;
+    void updateEmployee( Employee employee ) throws  EmployeeNotFoundException ;
     
     void deleteAllEmployees();
     

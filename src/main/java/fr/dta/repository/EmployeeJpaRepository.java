@@ -1,48 +1,55 @@
 package fr.dta.repository;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import fr.dta.exception.EmployeeNotFoundException;
 import fr.dta.modele.Employee;
 
 @Repository
-public class EmployeeJpaRepository extends AbstractJdbcRepository implements EmployeeRepository {
+public class EmployeeJpaRepository extends AbstractJpaRepository<Employee> implements EmployeeRepository {
+
+    @Override
+    protected Class<Employee> getEntityClass() {
+        return Employee.class;
+    }
 
     @Override
     public void saveEmployee( Employee employee ) {
-        // TODO Auto-generated method stub
-        
+        save( employee );
+
     }
 
     @Override
     public List<Employee> findAllEmployees() {
-        // TODO Auto-generated method stub
-        return null;
+        return findAll();
     }
 
     @Override
-    public Employee findBySsn( String ssn ) {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<Employee> findBySsn( String ssn ) {
+        Employee e = (Employee) getSession().createCriteria( entityClass ).add( Restrictions.eq( "secu", ssn ) )
+                .uniqueResult();
+        return Optional.of( e );
     }
 
     @Override
-    public void updateEmployee( Employee employee ){
-        // TODO Auto-generated method stub
-        
-    }
-    
-    public void updtaeEmployee( List<Employee> list) {
-        for(Employee e : list) {
-            updateEmployee( e );
+    public void updateEmployee( Employee employee ) throws EmployeeNotFoundException {
+        if ( this.isNew( employee ) ) {
+            save( employee );
+        } else {
+            throw new EmployeeNotFoundException( "Inexistant" );
         }
+
     }
 
     @Override
     public void deleteAllEmployees() {
-        // TODO Auto-generated method stub
-        
+
+        em.createQuery("delete from Employee").executeUpdate();
+
     }
 
 }

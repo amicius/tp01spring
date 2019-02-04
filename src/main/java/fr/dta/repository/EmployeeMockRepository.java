@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -38,10 +39,10 @@ public class EmployeeMockRepository implements EmployeeRepository {
         return list;
     }
 
-    public Employee findBySsn( String ssn ) {
+    public Optional<Employee> findBySsn( String ssn ) {
         
         for(Employee employ : list) {
-            if (employ.getSecu().equals( ssn)) return employ;
+            if (employ.getSecu().equals( ssn)) return Optional.of( employ);
         }
         return null;
     }

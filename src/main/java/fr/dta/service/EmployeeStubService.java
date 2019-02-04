@@ -1,6 +1,7 @@
 package fr.dta.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class EmployeeStubService implements EmployeeService{
     }
 
     @Override
-    public Employee findBySsn( String ssn ) {
+    public Optional<Employee> findBySsn( String ssn ) {
         // TODO Auto-generated method stub
         return null;
     }

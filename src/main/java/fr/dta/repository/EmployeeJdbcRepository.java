@@ -3,6 +3,7 @@ package fr.dta.repository;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import fr.dta.exception.CustomRollbackException;
+import fr.dta.exception.EmployeeNotFoundException;
 import fr.dta.mapper.EmployeeMapper;
 import fr.dta.modele.Employee;
 
@@ -32,19 +34,19 @@ public class EmployeeJdbcRepository extends AbstractJdbcRepository implements Em
     }
 
     @Override
-    public Employee findBySsn( String ssn ) {
-        return this.getJdbcTemplate().queryForObject( "Select * from employee where ssn = ?", new Object[] { ssn },
-                new EmployeeMapper() );
+    public Optional<Employee> findBySsn( String ssn ) {
+        return Optional.of(this.getJdbcTemplate().queryForObject( "Select * from employee where ssn = ?", new Object[] { ssn },
+                new EmployeeMapper() ));
     }
 
     @Override
-    public void updateEmployee( Employee employee ) throws CustomRollbackException {
+    public void updateEmployee( Employee employee ) throws EmployeeNotFoundException  {
        if( this.getJdbcTemplate().update(
                 "update employee set firstname = ?, lastname = ?, ssn = ?, salary = ?, hiredate = ? where id = ?  ",
                 employee.getPrenom(), employee.getNom(), employee.getSecu(), employee.getSalaire(),
                 Date.from( employee.getEmbauche().atStartOfDay( ZoneId.systemDefault() ).toInstant() ),
                 employee.getIdentifiant() ) != 1){
-                    throw new CustomRollbackException( "Employee inexistant" );
+                    throw new EmployeeNotFoundException( "Employee inexistant" );
                 }
         
         

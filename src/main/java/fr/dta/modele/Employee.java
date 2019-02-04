@@ -11,24 +11,28 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import fr.dta.persistence.IoEntity;
+
 @Entity
 @Table( name = "Employee" )
 @SequenceGenerator( name = "empl_seq" )
-public class Employee {
+public class Employee implements IoEntity {
+
+    private static final long serialVersionUID = 8809069957444810670L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "empl_seq" )
-    private long       identifiant;
+    private Long              identifiant;
     @Column
-    private String     prenom;
+    private String            prenom;
     @Column
-    private String     nom;
+    private String            nom;
     @Column
-    private String     secu;
+    private String            secu;
     @Column
-    private BigDecimal salaire;
+    private BigDecimal        salaire;
     @Column
-    private LocalDate  embauche;
+    private LocalDate         embauche;
 
     public Employee() {
         super();
@@ -54,12 +58,15 @@ public class Employee {
         this.embauche = localDate;
     }
 
-    public long getIdentifiant() {
+    @Override
+    public Long getIdentifiant() {
         return identifiant;
     }
 
-    public void setIdentifiant( long identifiant ) {
+    @Override
+    public void setIdentifiant( Long identifiant ) {
         this.identifiant = identifiant;
+
     }
 
     public String getPrenom() {
