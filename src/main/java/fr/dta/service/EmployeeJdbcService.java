@@ -7,20 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.dta.exception.CustomRollbackException;
 import fr.dta.modele.Employee;
 import fr.dta.repository.EmployeeJdbcRepository;
 
 @Service
 @Transactional
-public class EmployeeJdbcService implements EmployeeService{
-    
+public class EmployeeJdbcService implements EmployeeService {
+
     @Autowired
     private EmployeeJdbcRepository employeeJdbcRepository;
 
     @Override
     public void saveEmployee( Employee employee ) {
         employeeJdbcRepository.saveEmployee( employee );
-        
+
     }
 
     @Override
@@ -30,33 +31,29 @@ public class EmployeeJdbcService implements EmployeeService{
 
     @Override
     public Employee findBySsn( String ssn ) {
-           return employeeJdbcRepository.findBySsn( ssn );
+        return employeeJdbcRepository.findBySsn( ssn );
     }
 
     @Override
-    public void updateEmployee( Employee employee ) {
-        try {
+    public void updateEmployee( Employee employee ) throws CustomRollbackException {
+
             employeeJdbcRepository.updateEmployee( employee );
-        } catch ( Exception e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
+
     }
 
     @Override
     public Employee findLastHired() {
-        return employeeJdbcRepository.findAllEmployees().stream().max( Comparator.comparing( Employee::getEmbauche ) ).get();
+        return employeeJdbcRepository.findAllEmployees().stream().max( Comparator.comparing( Employee::getEmbauche ) )
+                .get();
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateEmployee( List<Employee> list ) {
+    @Transactional( rollbackFor = CustomRollbackException.class )
+    public void updateEmployee( List<Employee> list ) throws CustomRollbackException{
         for ( Employee employee : list ) {
-          updateEmployee( employee );
-      }
-        
+            updateEmployee( employee );
+        }
     }
-    
-    
+
 }

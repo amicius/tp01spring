@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import fr.dta.exception.CustomRollbackException;
 import fr.dta.modele.Employee;
 import fr.dta.service.EmployeeService;
 
@@ -40,7 +41,12 @@ public class App {
         
         temp.setSalaire( new BigDecimal( "30000" ) );
         
-        serv.updateEmployee( temp );
+        try {
+            serv.updateEmployee( temp );
+        } catch ( Exception e2 ) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
         temp = serv.findBySsn( "1940544" );
         System.out.println(temp.toString());
         
@@ -48,7 +54,12 @@ public class App {
             e.setSalaire( e.getSalaire().add( new BigDecimal( 500 ) ));
         }
         list.add( new Employee( 2L, "test", "test", "123456", new BigDecimal( 100 ), LocalDate.now() ) );
-        serv.updateEmployee( list );
+        try {
+            serv.updateEmployee( list );
+        } catch ( CustomRollbackException e1 ) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         list = serv.findAllEmployees();
         for (Employee e : list) {
             System.out.println(e.toString());

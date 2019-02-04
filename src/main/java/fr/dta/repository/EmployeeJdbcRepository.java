@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import fr.dta.exception.CustomRollbackException;
 import fr.dta.mapper.EmployeeMapper;
 import fr.dta.modele.Employee;
 
@@ -33,12 +34,16 @@ public class EmployeeJdbcRepository extends AbstractJdbcRepository implements Em
     }
 
     @Override
-    public void updateEmployee( Employee employee ) {
-        this.getJdbcTemplate().update(
+    public void updateEmployee( Employee employee ) throws CustomRollbackException {
+       if( this.getJdbcTemplate().update(
                 "update employee set firstname = ?, lastname = ?, ssn = ?, salary = ?, hiredate = ? where id = ?  ",
                 employee.getPrenom(), employee.getNom(), employee.getSecu(), employee.getSalaire(),
                 Date.from( employee.getEmbauche().atStartOfDay( ZoneId.systemDefault() ).toInstant() ),
-                employee.getIdentifiant() );
+                employee.getIdentifiant() ) != 1){
+                    throw new CustomRollbackException( "Employee inexistant" );
+                }
+        
+        
 
     }
 
